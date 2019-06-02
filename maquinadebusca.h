@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 using std::string;
+using std::multimap;
 class maquinadebusca{
 
 	public:
