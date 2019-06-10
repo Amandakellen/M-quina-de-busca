@@ -353,7 +353,7 @@ for(it=arq2_aux.begin();it!=arq2_aux.end();it++)
 	{
 		f=it->first;
 		s=it->second;
-       aux4.insert({f,s});
+       aux4.insert(pair<string,string>(f,s));
 	}
 arq2_aux.clear();	
 
@@ -361,7 +361,7 @@ arq2_aux.clear();
 	{
 		f=it->first;
 		s=it->second;
-       aux4.insert({f,s});
+       aux4.insert(pair<string,string>(f,s));
 	}
 arq3_aux.clear();
 string concatena;
