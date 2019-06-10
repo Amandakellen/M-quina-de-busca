@@ -1,14 +1,23 @@
 #include <iostream>
+#include <string>
+#include <iostream>
 #include <string.h>
 #include <fstream>
 #include <ctype.h>
+#include <vector>
 #include <map>
+#include <cmath>
 #include "maquinadebusca.h"
 using std::cout;
 using std::endl;
 using std::string;
 using std::multimap;
 using std::pair;
+using std::string;
+using std::multimap;
+using std::map;
+using std::vector;
+
 
 
 maquinadebusca::maquinadebusca()
@@ -22,6 +31,7 @@ maquinadebusca::maquinadebusca()
 	arq1=new string[c1];
 	arq2=new string[c2];
 	arq3=new string[c3];
+		lerarquivos();
 }
 void maquinadebusca::redimensiona(int n)
 {
@@ -40,23 +50,24 @@ void maquinadebusca::redimensiona(int n)
     int indice=0;
     in.open("d1.txt");
     char auxiliar;
+    
 if(in.is_open()){
 while((auxiliar=in.get())!=EOF){
  if(t1==c1){
  redimensiona(2*c1);
  }else{
-  if( isalpha(auxiliar)) {//verifica se é uma letra
-    if(isupper(auxiliar)){//verifica se é letra maiscula
+  if( isalpha(auxiliar)) {//verifica se Ã© uma letra
+    if(isupper(auxiliar)){//verifica se Ã© letra maiscula
 	 auxiliar=tolower(auxiliar);
      arq1[indice]=auxiliar;
     }else{arq1[indice]=auxiliar;}
   }else{
-    if(isdigit(auxiliar)){//verifica se é numero
+    if(isdigit(auxiliar)){//verifica se Ã© numero
      arq1[indice]=auxiliar;
      }else{
-   	  if(auxiliar==32){//verifica se é espaço
+   	  if(auxiliar==32){//verifica se Ã© espaÃ§o
 	   arq1[indice]=auxiliar;}else{
-             if(ispunct(auxiliar) ){//verifica se é um ponto
+             if(ispunct(auxiliar) ){//verifica se Ã© um ponto
               if(auxiliar==33){arq1[indice]=" ";}
               else{
                  if(auxiliar==44){arq1[indice]=" ";}
@@ -96,18 +107,18 @@ while((auxiliar=in.get())!=EOF){
  if(t2==c2){
  redimensiona(2*c2);
  }else{
-  if( isalpha(auxiliar)) {//verifica se é uma letra
-    if(isupper(auxiliar)){//verifica se é letra maiscula
+  if( isalpha(auxiliar)) {//verifica se Ã© uma letra
+    if(isupper(auxiliar)){//verifica se Ã© letra maiscula
 	 auxiliar=tolower(auxiliar);
      arq2[indice]=auxiliar;
     }else{arq2[indice]=auxiliar;}
   }else{
-    if(isdigit(auxiliar)){//verifica se é numero
+    if(isdigit(auxiliar)){//verifica se Ã© numero
      arq2[indice]=auxiliar;
      }else{
-   	  if(auxiliar==32){//verifica se é espaço
+   	  if(auxiliar==32){//verifica se Ã© espaÃ§o
 	   arq2[indice]=auxiliar;}else{
-             if(ispunct(auxiliar) ){//verifica se é um ponto
+             if(ispunct(auxiliar) ){//verifica se Ã© um ponto
               if(auxiliar==33){arq2[indice]=" ";}
               else{
                  if(auxiliar==44){arq2[indice]=" ";}
@@ -147,18 +158,18 @@ while((auxiliar=in.get())!=EOF){
  if(t3==c3){
  redimensiona(2*c3);
  }else{
-  if( isalpha(auxiliar)) {//verifica se é uma letra
-    if(isupper(auxiliar)){//verifica se é letra maiscula
+  if( isalpha(auxiliar)) {//verifica se Ã© uma letra
+    if(isupper(auxiliar)){//verifica se Ã© letra maiscula
 	 auxiliar=tolower(auxiliar);
      arq3[indice]=auxiliar;
     }else{arq3[indice]=auxiliar;}
   }else{
-    if(isdigit(auxiliar)){//verifica se é numero
+    if(isdigit(auxiliar)){//verifica se Ã© numero
      arq3[indice]=auxiliar;
      }else{
-   	  if(auxiliar==32){//verifica se é espaço
+   	  if(auxiliar==32){//verifica se Ã© espaÃ§o
 	   arq3[indice]=auxiliar;}else{
-             if(ispunct(auxiliar) ){//verifica se é um ponto
+             if(ispunct(auxiliar) ){//verifica se Ã© um ponto
               if(auxiliar==33){arq3[indice]=" ";}
               else{
                  if(auxiliar==44){arq3[indice]=" ";}
@@ -223,16 +234,10 @@ aux =arq1[i];
 			 {
 			 	 for(it=arq1_aux.begin();it!=arq1_aux.end();it++)
 				  {
-				  	if(it->second=="d1.txt")
-					  {
-					  	n=arq1_aux.count(aux3);
-					  }
-					  else{
-						  n=0;
-					  }
 				  	
+					  	n=arq1_aux.count(aux3);	
 				  }
-		
+		       arq1_.insert(pair<string,string>(aux3,"d1.txt"));
 			   if(n==0)
 			   {
 			 	arq1_aux.insert(pair<string,string>(aux3,"d1.txt"));
@@ -240,7 +245,7 @@ aux =arq1[i];
 	     	
 			 }
 			 else{
-			 
+			    arq1_.insert(pair<string,string>(aux3,"d1.txt"));
 				 arq1_aux.insert(pair<string,string>(aux3,"d1.txt"));
 				
 			 }
@@ -275,7 +280,7 @@ aux =arq2[i];
 				  {
 				  	n=arq2_aux.count(aux3);
 				  }
-		
+		        arq2_.insert(pair<string,string>(aux3,"d2.txt"));
 			   if(n==0)
 			   {
 			 	arq2_aux.insert(pair<string,string>(aux3,"d2.txt"));
@@ -285,6 +290,7 @@ aux =arq2[i];
 			 else{
 			 
 				 arq2_aux.insert(pair<string,string>(aux3,"d2.txt"));
+				  arq2_.insert(pair<string,string>(aux3,"d2.txt"));
 				
 			 }
 	     
@@ -318,7 +324,7 @@ aux =arq3[i];
 				  {
 				  	n=arq3_aux.count(aux3);
 				  }
-		
+		         arq3_.insert(pair<string,string>(aux3,"d3.txt"));
 			   if(n==0)
 			   {
 			 	arq3_aux.insert(pair<string,string>(aux3,"d3.txt"));
@@ -326,7 +332,7 @@ aux =arq3[i];
 	     	
 			 }
 			 else{
-			 
+                 arq3_.insert(pair<string,string>(aux3,"d3.txt"));
 				 arq3_aux.insert(pair<string,string>(aux3,"d3.txt"));
 				
 			 }
@@ -362,6 +368,9 @@ string concatena;
 string arq=" ";
 string ant=" ";
 string anterior=" ";
+double idf_aux;
+int nt;
+int N=3;
 int sai=0;
 	for(it=aux4.begin();it!=aux4.end();it++)
 	{ 
@@ -376,6 +385,12 @@ int sai=0;
          anterior=f;
           s=it-> second;
          indice_invertido.insert(pair<string,string>(f,s));
+         nt=1;
+          idf_aux=log(N)-log(nt);
+			  if(idf_.count(f)==0)
+			  {
+			  	 idf_.insert(pair<string,double>(f,idf_aux));
+			  }
 		}
 		if(n>1)
 		{
@@ -384,6 +399,13 @@ int sai=0;
 		  if(n==2)
 		  {
 		  	it2=it++;
+		  	nt=2;
+		  	idf_aux=log(N)-log(nt);
+
+			  if(idf_.count(f)==0)
+			  {
+			  	 idf_.insert(pair<string,double>(f,idf_aux));
+			  }
 		  	while(sai!=1)
 			{
 				arq=it2->second;
@@ -402,6 +424,12 @@ int sai=0;
 			sai=0;
 		  }
 		  else{
+		  	 nt=3;
+		  	 idf_aux=log(N)-log(nt);
+			  if(idf_.count(f)==0)
+			  {
+			  	 idf_.insert(pair<string,double>(f,idf_aux));
+			  }
 			  concatena="d1.txt  d2.txt  d3.txt ";
 		  }
            if(indice_invertido.empty())
@@ -422,5 +450,52 @@ int sai=0;
 	    
 	}
 	
-aux4.clear();	
+aux4.clear();
+
 }
+
+void maquinadebusca::tf()
+{
+
+	std::map<string,string>::iterator it;
+	std::map<string,int>::iterator it2;
+	string palavra,anterior=" ";
+	int n;
+	
+	//arq 1
+	for(it=arq1_.begin();it!=arq1_.end();it++)
+	{
+		palavra= it->first;
+		n=arq1_.count(palavra);
+		if(palavra!=anterior)
+		{
+			
+			arq1_tf.insert(pair<string,int>(palavra,n));
+		}
+	}
+	//arq2
+	for(it=arq2_.begin();it!=arq2_.end();it++)
+	{
+		palavra= it->first;
+		n=arq2_.count(palavra);
+		if(palavra!=anterior)
+		{
+			
+			arq2_tf.insert(pair<string,int>(palavra,n));
+		}
+	}
+	
+	//arq 3
+	for(it=arq3_.begin();it!=arq3_.end();it++)
+	{
+		palavra= it->first;
+		n=arq3_.count(palavra);
+		if(palavra!=anterior)
+		{
+			
+			arq3_tf.insert(pair<string,int>(palavra,n));
+		}
+	}
+
+}
+
