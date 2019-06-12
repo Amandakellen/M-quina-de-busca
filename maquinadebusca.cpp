@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <stdlib.h>
 #include <iostream>
 #include <string.h>
 #include <fstream>
@@ -19,7 +20,6 @@ using std::map;
 using std::vector;
 
 
-
 maquinadebusca::maquinadebusca()
 {
 	c1=100;
@@ -35,13 +35,31 @@ maquinadebusca::maquinadebusca()
 }
 void maquinadebusca::redimensiona(int n)
 {
+	
 	string *aux=new string[n];
-      for(int j=0;j<t1;j++){
+
+		 for(int j=0;j<t1;j++){
         aux[j]=arq1[j];
       }
 			delete []arq1;
 			arq1=aux;
-			c1=n;
+             c1=n;
+string *aux2=new string[n];			
+ for(int j=0;j<t2;j++){
+        aux2[j]=arq2[j];
+      }
+			delete []arq2;
+			arq2=aux2;
+             c2=n;
+   string *aux3=new string[n];	          
+  for(int j=0;j<t3;j++){
+        aux3[j]=arq3[j];
+      }
+			delete []arq2;
+			arq3=aux3;
+             c3=n;
+     
+			
 }
  void maquinadebusca::lerarquivos()
  {
@@ -50,11 +68,11 @@ void maquinadebusca::redimensiona(int n)
     int indice=0;
     in.open("d1.txt");
     char auxiliar;
-    
+  //arq1  
 if(in.is_open()){
 while((auxiliar=in.get())!=EOF){
  if(t1==c1){
- redimensiona(2*c1);
+	 redimensiona(2*c1);
  }else{
   if( isalpha(auxiliar)) {//verifica se Ã© uma letra
     if(isupper(auxiliar)){//verifica se Ã© letra maiscula
@@ -99,6 +117,7 @@ while((auxiliar=in.get())!=EOF){
 }
 in.close();
 
+//arq2
 indice=0;
 i=0;
 in.open("d2.txt");
@@ -156,7 +175,7 @@ in.open("d3.txt");
 if(in.is_open()){
 while((auxiliar=in.get())!=EOF){
  if(t3==c3){
- redimensiona(2*c3);
+redimensiona(2*c3);
  }else{
   if( isalpha(auxiliar)) {//verifica se Ã© uma letra
     if(isupper(auxiliar)){//verifica se Ã© letra maiscula
@@ -498,4 +517,107 @@ void maquinadebusca::tf()
 	}
 
 }
+void maquinadebusca::coordenada_do_documento()
+{
+	
+std::map<string,double>::iterator it;
+std::map<string,int>::iterator it2;
+double w;
+int k;
+double aux;
+int sai=0;
+it2=arq1_tf.begin();
+string palavra,p2;
 
+//arq 1
+for(it=idf_.begin();it!=idf_.end();it++)
+{
+	
+	palavra=it->first;
+    while(it2!=arq1_tf.end() && sai!=1)
+	{
+		p2=it2->first;
+		
+		if(p2==palavra)
+		{
+			
+			sai=1;
+			k=it2->second;
+			aux=it->second;
+			w=k*aux;
+		}
+		it2++;
+	}
+	if(sai==0)
+	{
+		w=0.0;
+		wd1.insert(pair<string,double>(palavra,w));
+	}
+	else{
+		wd1.insert(pair<string,double>(palavra,w));
+	}
+	it2=arq1_tf.begin();
+	sai=0;
+}	
+//arq2
+for(it=idf_.begin();it!=idf_.end();it++)
+{
+	
+	palavra=it->first;
+    while(it2!=arq2_tf.end() && sai!=1)
+	{
+		p2=it2->first;
+		
+		if(p2==palavra)
+		{
+			
+			sai=1;
+			k=it2->second;
+			aux=it->second;
+			w=k*aux;
+		}
+		it2++;
+	}
+	if(sai==0)
+	{
+		w=0.0;
+		wd2.insert(pair<string,double>(palavra,w));
+	}
+	else{
+		wd2.insert(pair<string,double>(palavra,w));
+	}
+	it2=arq2_tf.begin();
+	sai=0;
+}
+//arq3
+for(it=idf_.begin();it!=idf_.end();it++)
+{
+	
+	palavra=it->first;
+    while(it2!=arq3_tf.end() && sai!=1)
+	{
+		p2=it2->first;
+		
+		if(p2==palavra)
+		{
+			
+			sai=1;
+			k=it2->second;
+			aux=it->second;
+			w=k*aux;
+		}
+		it2++;
+	}
+	if(sai==0)
+	{
+		w=0.0;
+		wd3.insert(pair<string,double>(palavra,w));
+	}
+	else{
+		wd3.insert(pair<string,double>(palavra,w));
+	}
+	it2=arq3_tf.begin();
+	sai=0;
+}
+
+}
