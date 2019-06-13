@@ -18,7 +18,8 @@ using std::string;
 using std::multimap;
 using std::map;
 using std::vector;
-
+using std::cin;
+using std::getline;
 
 maquinadebusca::maquinadebusca()
 {
@@ -620,4 +621,178 @@ for(it=idf_.begin();it!=idf_.end();it++)
 	sai=0;
 }
 
+}
+map<string,double> maquinadebusca::busca()
+{
+	 string pesquisa;
+	 int capacidade=100;
+	 int tamanho=1;
+	 string  *aux=new string[capacidade];
+     cout<<"Digite a pesquisa a ser feita :"<<endl;
+     getline(cin, pesquisa);
+     
+     system("clear||cls");
+     char auxiliar=' ';
+     int indice=0;
+     int i=0;
+
+	 
+for ( std::string::iterator it=pesquisa.begin(); it!=pesquisa.end(); it++)
+  {
+	 auxiliar=pesquisa[i];
+	
+     if( isalpha(auxiliar)) {//verifica se e' uma letra
+     	if(isupper(auxiliar)){//verifica se Ã© letra maiscula
+	 auxiliar=tolower(auxiliar);
+      aux[indice]=auxiliar;}else{aux[indice]=auxiliar;}
+    }else{if(isdigit(auxiliar)){//verifica se Ã© numero
+     arq1[indice]=auxiliar;}else{
+   	  if(auxiliar==' '){aux[indice]=auxiliar;}else{//verifica se Ã© espaÃ§o
+   	  	 if(ispunct(auxiliar) ){//verifica se Ã© um ponto
+              if(auxiliar==33){aux[indice]=" ";}
+              else{
+                 if(auxiliar==44){aux[indice]=" ";}
+                 else{
+	              if(auxiliar==58){aux[indice]=" ";}
+                  else{
+                    if(auxiliar==46){aux[indice]=" ";}
+                    else{
+                      if(auxiliar==59){aux[indice]=" ";}
+                      else{
+	                    if(auxiliar==63){aux[indice]=" ";}
+                        else{indice=indice-1;}
+	                  }
+                    }
+                  }
+                }
+               }
+           }
+		   	 
+		 }
+		 
+	 }
+  } 
+  
+
+  indice++;
+  tamanho++;
+     i++;   
+}
+aux[indice+1]=" ";
+string aux3;
+string auxi;
+int n;
+
+map <string,int> tf_busca;
+
+vector <string> dados;
+i=0;
+while(i<tamanho)
+{
+	
+	while(auxi!=" ")
+	{
+		auxi=aux[i];
+		if(i==0)
+		{
+			aux3=auxi;
+		}
+		else{
+			if(auxi!=" ")
+			{
+				aux3=aux3+auxi;
+			}
+			
+		}	
+	
+		i++;
+	}
+    dados.push_back(aux3);
+    aux3="";
+	auxi=aux[i];
+}
+n=0;
+string atual,comparador,anterior=" ";
+anterior=dados[0];
+for(int j=0;j<dados.size();j++)
+{
+	atual=dados[j];
+	if(j==0)
+	{
+		for(int k=1;k<dados.size();k++)
+		{
+			comparador=dados[k];
+			if(comparador==atual)
+			{
+				n=n+1;
+			}
+		}
+		if(n==0)
+		{
+			n=1;
+		}
+	 tf_busca.insert(pair<string,int>(atual,n));
+	}
+	if(atual!=anterior)
+	{
+		for(int k=1;k<dados.size();k++)
+		{
+			comparador=dados[k];
+			if(comparador==atual)
+			{
+				n=n+1;
+			}
+		}
+		if(n==0)
+		{
+			n=1;
+		}
+		
+	 tf_busca.insert(pair<string,int>(atual,n));
+	}
+	anterior=atual;
+	n=0;
+}
+map<string,double> w_busca;
+std::map<string,double>::iterator it;
+std::map<string,int>::iterator it2;
+double w=0;
+int tf=0;
+double idf=0;
+int sai=0;
+
+string palavra,p2;
+for(it=idf_.begin();it!=idf_.end();it++)
+{
+	palavra=it->first;
+	
+	
+for(it2=tf_busca.begin();it2!=tf_busca.end();it2++)
+	{
+		
+		p2=it2->first;
+      if(palavra==p2)
+		{
+			
+			sai=1;
+			tf=it2->second;
+			idf=it->second;
+			w=tf*idf;
+		}
+		
+		
+	}
+	if(sai==0)
+	{
+		w=0.0;
+		w_busca.insert(pair<string,double>(palavra,w));
+	}
+	else{
+		w_busca.insert(pair<string,double>(palavra,w));
+	}
+	it2=tf_busca.begin();
+	sai=0;
+}
+cout<<" Resultados encontrados para "<<"'"<<pesquisa<<"'"<<endl; 
+return w_busca;
 }
