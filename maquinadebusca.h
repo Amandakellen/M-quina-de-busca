@@ -11,12 +11,15 @@ class maquinadebusca{
 
 	public:
     maquinadebusca();//construtor
-	void lerarquivos();	//leitura dos arquivos
-	void criandomap();	//cria map com dados de cada arquivo(cria indice invertido também)
-	void tf();//cria o tf de cada arquivo
-	void coordenada_do_documento();//cria a coordenada de cada arquivo
-    map<string,double> busca();
+	void Cosine_Ranking();//calcula o Cosine Ranking e imrpime na tela
+	
     private:
+	friend class Teste;
+ 	void tf();//cria o tf de cada arquivo
+    map<string,double> busca();//recebe a busca a ser feita e retorna sua coordenada 
+ 	void coordenada_do_documento();//cria a coordenada de cada arquivo
+    void lerarquivos();	//leitura dos arquivos
+    void criandomap();	//cria map com dados de cada arquivo(cria indice invertido também)
     multimap <string,string>indice_invertido;// usando multimap podem haver chaves iguais com indices diferentes;	
     multimap <string,double>idf_;
     map <string,int>arq1_tf;//frequencia do arquivo1 
@@ -34,6 +37,7 @@ class maquinadebusca{
  	int c1,c2,c3;
  	int t1,t2,t3;
  	void redimensiona(int n);
+	
 			
 };
 
