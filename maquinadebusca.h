@@ -15,7 +15,7 @@ class maquinadebusca{
 	void criandomap();	//cria map com dados de cada arquivo(cria indice invertido também)
 	void tf();//cria o tf de cada arquivo
 	void coordenada_do_documento();//cria a coordenada de cada arquivo
-
+    map<string,double> busca();
     private:
     multimap <string,string>indice_invertido;// usando multimap podem haver chaves iguais com indices diferentes;	
     multimap <string,double>idf_;
