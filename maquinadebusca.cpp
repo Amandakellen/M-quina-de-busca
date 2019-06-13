@@ -32,7 +32,7 @@ maquinadebusca::maquinadebusca()
 	arq1=new string[c1];
 	arq2=new string[c2];
 	arq3=new string[c3];
-		lerarquivos();
+  lerarquivos();
 }
 void maquinadebusca::redimensiona(int n)
 {
@@ -476,7 +476,7 @@ aux4.clear();
 
 void maquinadebusca::tf()
 {
-
+     criandomap();
 	std::map<string,string>::iterator it;
 	std::map<string,int>::iterator it2;
 	string palavra,anterior=" ";
@@ -520,7 +520,7 @@ void maquinadebusca::tf()
 }
 void maquinadebusca::coordenada_do_documento()
 {
-	
+	tf();
 std::map<string,double>::iterator it;
 std::map<string,int>::iterator it2;
 double w;
@@ -624,6 +624,7 @@ for(it=idf_.begin();it!=idf_.end();it++)
 }
 map<string,double> maquinadebusca::busca()
 {
+	coordenada_do_documento();
 	 string pesquisa;
 	 int capacidade=100;
 	 int tamanho=1;
@@ -795,4 +796,209 @@ for(it2=tf_busca.begin();it2!=tf_busca.end();it2++)
 }
 cout<<" Resultados encontrados para "<<"'"<<pesquisa<<"'"<<endl; 
 return w_busca;
+}
+void maquinadebusca::Cosine_Ranking()
+{
+	map<string,double> w_busca;
+	w_busca=busca();
+	double auxiliar,multi;
+	double cos_arq1,cos_arq2,cos_arq3;
+    std::map<string,double>::iterator it;
+    std::map<string,double>::iterator it2;
+    bool pertence;
+    cos_arq1=0.0;
+	cos_arq2=0.0;
+	cos_arq3=0.0;
+    //arq1
+    for(it=w_busca.begin();it!=w_busca.end();it++)
+	{
+		for(it2=wd1.begin();it2!=wd1.end();it2++)
+		{
+			if(it->first==it2->first)
+			{
+				pertence=true;
+				auxiliar=it2->second;
+			}
+		}
+		
+		if(pertence)
+		{
+			multi=(auxiliar*it->second);
+			cos_arq1=cos_arq1+multi;
+		}
+	}
+	
+	//arq2
+    for(it=w_busca.begin();it!=w_busca.end();it++)
+	{
+		for(it2=wd2.begin();it2!=wd2.end();it2++)
+		{
+			if(it->first==it2->first)
+			{
+				pertence=true;
+				auxiliar=it2->second;
+			}
+		}
+		
+		if(pertence)
+		{
+			multi=(auxiliar*it->second);
+			cos_arq2=cos_arq2+multi;
+		}
+	}
+	
+//arq3
+    for(it=w_busca.begin();it!=w_busca.end();it++)
+	{
+		for(it2=wd3.begin();it2!=wd3.end();it2++)
+		{
+			if(it->first==it2->first)
+			{
+				pertence=true;
+				auxiliar=it2->second;
+			}
+		}
+		
+		if(pertence)
+		{
+			multi=(auxiliar*it->second);
+			cos_arq3=cos_arq3+multi;
+		}
+	}
+int iguais=0;
+string maior,menor,d_iguais,meio;
+if(cos_arq1==0.0 && cos_arq2==0.0 && cos_arq3==0.0)
+	{
+		cout<<"\n Nao ha nenhum documento correspondente a sua pesquisa"<<endl;
+	}
+	else{
+		if(cos_arq1==cos_arq2 && cos_arq1==cos_arq3)
+{
+	iguais=6;
+	d_iguais="D1,D2 e D3";
+}
+if(cos_arq1==cos_arq2)
+{
+	iguais=3;
+	d_iguais="D1 e D2";
+}
+if(cos_arq1==cos_arq3)
+{
+	iguais=4;
+	d_iguais="D1 e D3";
+}
+if(cos_arq2==cos_arq3)
+{
+	iguais=5;
+	d_iguais="D2 e D3";
+}
+if(iguais!=6)//caso tenha algum igual
+{
+	if(iguais==3)
+	{
+		d_iguais="D1 e D2";
+		if(cos_arq1>cos_arq3)
+		{
+			maior=d_iguais;
+			menor="D3";
+		}
+		else{
+			maior=d_iguais;
+			menor="D3";
+		}
+	}else{
+	 if(iguais==4)
+	 {
+	 	d_iguais="D1 e D3";
+	 	if(cos_arq1>cos_arq2)
+		{
+			maior=d_iguais;
+			menor="D2";
+		}
+		else{
+			maior="D2";
+			menor=d_iguais;
+		}
+	 }else{
+		 if(iguais==5)
+	 {
+	 	d_iguais="D2 e D3";
+	 	if(cos_arq1>cos_arq2)
+		{
+			maior="D1";
+			menor=d_iguais;
+		}
+		else{
+			maior=d_iguais;
+			menor="D1";
+		}
+	 }
+	 }	
+	}
+}
+	
+if(iguais==0)//caso não tenha nenhum igual
+{
+	if(cos_arq1>cos_arq2 && cos_arq1>cos_arq3)
+	{
+		maior="D1";
+		if(cos_arq2<cos_arq3)
+		{
+			menor="D2";
+			meio="D3";
+		}
+		else{
+			menor="D3";
+			meio="D2";
+		}
+	}
+	if(cos_arq2>cos_arq1 && cos_arq2>cos_arq3)
+	{
+       maior="D2";
+      if(cos_arq1<cos_arq3)
+		{
+			menor="D1";
+			meio="D3";
+		}
+		else{
+			menor="D3";
+			meio="D1";
+		}
+	}
+	if(cos_arq3>cos_arq1 && cos_arq3>cos_arq2)
+	{
+		maior="D3";
+		if(cos_arq1<cos_arq2)
+		{
+			menor="D1";
+			meio="D2";
+		}
+		else{
+			menor="D2";
+			meio="D1";
+		}
+	}
+cout<<"                   Ranking                  "<<endl;
+cout<<"     Posicao          |        Documentos   "<<endl;
+cout<<"        1             |        "<<maior<<"  "<<endl;
+cout<<"        2             |        "<<meio <<"  "<<endl;
+cout<<"        3             |        "<<menor<<"  "<<endl;
+}
+else{
+	if(iguais==6)
+	{
+		cout<<"                   Ranking                  "<<endl;
+        cout<<"     Posicao          |        Documentos   "<<endl;
+        cout<<"        1             |        "<<d_iguais<<"  "<<endl;
+	}
+	else{
+		cout<<"                   Ranking                  "<<endl;
+        cout<<"     Posicao          |        Documentos   "<<endl;
+        cout<<"        1             |        "<<maior<<"  "<<endl;
+        cout<<"        2             |        "<<menor <<"  "<<endl;
+	}
+
+}
+	}
+
 }
