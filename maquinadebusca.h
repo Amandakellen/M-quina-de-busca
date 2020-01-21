@@ -11,7 +11,7 @@ class maquinadebusca{
 
 	public:
     maquinadebusca();//construtor
-	void Cosine_Ranking();//calcula o Cosine Ranking e imrpime na tela
+	void Cosine_Ranking();//calcula o Cosine Ranking e imprime na tela
 	
     private:
 	friend class Teste;
